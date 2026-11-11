@@ -1,0 +1,16 @@
+{
+  "name": "motometa-server",
+  "version": "0.1.0",
+  "description": "MotoMeta Game multiplayer server (WebSocket, rooms, position relay)",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "test": "node test.js"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "dependencies": {
+    "ws": "^8.22.2"
+  }
+}

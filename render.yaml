@@ -1,0 +1,10 @@
+# Render.com (ucretsiz plan) icin: bu depoyu GitHub'a yukle, Render'da "New > Blueprint" ile baglan.
+services:
+  - type: web
+    name: motometa-server
+    runtime: node
+    plan: free
+    rootDir: Server
+    buildCommand: npm install
+    startCommand: node server.js
+    healthCheckPath: /
