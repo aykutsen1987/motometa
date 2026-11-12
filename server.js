@@ -21,50 +21,24 @@ const LOBBY_MS = Number(process.env.LOBBY_MS) || 30000;      // yaris odasinda g
 // ---------------- Siralama tablolari ----------------
 const TRACK_LEN = [1284, 1492, 1779, 1092, 2098, 1459];     // pist uzunluklari (m)
 const MAX_RACE_SPEED = Number(process.env.MAX_RACE_SPEED) || 92;                // m/s: ustu fiziksel olarak imkansiz say
-const DATA_FILE = path.join(__dirname, 'boards.json');
 const NTRACKS = TRACK_LEN.length;
-const boards = { lap: TRACK_LEN.map(() => ({})), total: TRACK_LEN.map(() => ({})), gems: {} };   // pid -> { n, v, ts }
-try {
-  const raw = JSON.parse(fs.readFileSync(DATA_FILE, 'utf8'));
-  if (raw && raw.lap && raw.total && raw.gems) {
-    for (let i = 0; i < NTRACKS; i++) { if (raw.lap[i]) boards.lap[i] = raw.lap[i]; if (raw.total[i]) boards.total[i] = raw.total[i]; }
-    boards.gems = raw.gems;
-  }
-} catch (e) { /* ilk calistirma */ }
-let dirty = false;
-setInterval(() => {
-  if (!dirty) return;
-  dirty = false;
-  fs.writeFile(DATA_FILE, JSON.stringify(boards), () => {});
-}, 20000);
+const { createStore } = require('./store');
+let store = null;      // PostgreSQL (Neon) varsa orada, yoksa bellek + dosya. Hazir olana kadar null.
+createStore(NTRACKS).then((s) => { store = s; }).catch((e) => console.error('[store] baslatilamadi:', e));
 
 function cleanName(s, def) {
   return String(s || def || 'Rider').replace(/[^\p{L}\p{N} _.\-]/gu, '').trim().slice(0, 20) || def || 'Rider';
 }
-function topRows(map, asc, n) {
-  const rows = Object.entries(map).map(([pid, r]) => ({ n: r.n, v: r.v, pid }));
-  rows.sort((a, b) => (asc ? a.v - b.v : b.v - a.v));
-  return rows.slice(0, n);
-}
-function rankOf(map, pid, asc) {
-  const rows = topRows(map, asc, 100000);
-  const i = rows.findIndex((r) => r.pid === pid);
-  return i < 0 ? 0 : i + 1;
-}
-function updateBest(map, pid, name, v, asc) {
-  const cur = map[pid];
-  if (!cur || (asc ? v < cur.v : v > cur.v)) { map[pid] = { n: name, v, ts: Date.now() }; dirty = true; }
-  else if (cur.n !== name) { cur.n = name; dirty = true; }
-}
+// 'lap0'..'lapN', 'total0'..'totalN', 'gems' -> { kind, track, asc }
 function boardFor(key) {
-  if (key === 'gems') return { map: boards.gems, asc: false };
+  if (key === 'gems') return { kind: 'gems', track: 0, asc: false };
   const tr = Math.min(NTRACKS - 1, Math.max(0, parseInt(String(key).replace('lap', '').replace('total', ''), 10) || 0));
-  return String(key).startsWith('total') ? { map: boards.total[tr], asc: true } : { map: boards.lap[tr], asc: true };
+  return { kind: String(key).startsWith('total') ? 'total' : 'lap', track: tr, asc: true };
 }
 
 // Gizlilik politikasi sayfasi (Play Console'a bu adresi yaz: https://<sunucu>/privacy)
-const CONTACT_NAME = process.env.CONTACT_NAME || '[AD SOYAD / UNVAN]';
-const CONTACT_EMAIL = process.env.CONTACT_EMAIL || '[E-POSTA]';
+const CONTACT_NAME = process.env.CONTACT_NAME || '@aykutsen1987';
+const CONTACT_EMAIL = process.env.CONTACT_EMAIL || 'aykutsen1987@gmail.com';
 let PRIVACY_HTML = '';
 try {
   PRIVACY_HTML = fs.readFileSync(path.join(__dirname, 'privacy.html'), 'utf8')
@@ -141,7 +115,8 @@ wss.on('connection', (ws) => {
 
   ws.on('pong', () => { c.alive = true; });
 
-  ws.on('message', (data) => {
+  ws.on('message', async (data) => {
+   try {
     // basit hiz siniri
     const now = Date.now();
     c.tokens = Math.min(MAX_MSG_PER_SEC, c.tokens + ((now - c.last) / 1000) * MAX_MSG_PER_SEC);
@@ -216,28 +191,35 @@ wss.on('connection', (ws) => {
         if (why) { send(ws, { t: 'sub', ok: false, why }); break; }
         c.raceT0 = 0;
         const nm = c.name;
-        updateBest(boards.lap[track], c.pid, nm, lap, true);
-        if (laps === 3) updateBest(boards.total[track], c.pid, nm, total, true);
-        send(ws, { t: 'sub', ok: true, rankLap: rankOf(boards.lap[track], c.pid, true), rankTotal: laps === 3 ? rankOf(boards.total[track], c.pid, true) : 0 });
+        if (!store) { send(ws, { t: 'sub', ok: false, why: 'server_busy' }); break; }
+        await store.updateBest('lap', track, c.pid, nm, lap, true);
+        if (laps === 3) await store.updateBest('total', track, c.pid, nm, total, true);
+        send(ws, { t: 'sub', ok: true, rankLap: await store.rank('lap', track, c.pid, true), rankTotal: laps === 3 ? await store.rank('total', track, c.pid, true) : 0 });
         if (c.room && c.room.mode === 'race')
           for (const mm of c.room.members) send(mm.ws, { t: 'fin', id: c.id, name: nm, time: total });
         break;
       }
       case 'gems': {      // toplam elmas puani (hiz sinirli)
+        if (!store) { send(ws, { t: 'sub', ok: false, why: 'server_busy' }); break; }
         const total = num(m.total, 0, 1e7, 0) | 0;
         const now = Date.now();
-        const secs = (now - c.gemsAt) / 1000;
-        const cap = c.gemsClaimed ? c.gemsClaimed + secs * 3 + 25 : 3000 + (now - c.t0) / 1000 * 3;
-        if (total > cap || total < c.gemsClaimed) { send(ws, { t: 'sub', ok: false, why: 'gems_rate' }); break; }
+        // Referans: bu oturumda son kabul edilen deger, yoksa depodaki kayit (yeniden baglanan oyuncu sinira takilmasin)
+        let base = c.gemsClaimed, baseAt = c.gemsAt;
+        if (!base) { const row = await store.getRow('gems', 0, c.pid); if (row) { base = row.v; baseAt = row.ts; } }
+        const secs = Math.max(0, (now - (baseAt || now)) / 1000);
+        const cap = base ? base + secs * 3 + 50 : 3000 + (now - c.t0) / 1000 * 3;
+        if (total > cap || total < (c.gemsClaimed || 0)) { send(ws, { t: 'sub', ok: false, why: 'gems_rate' }); break; }
         c.gemsClaimed = total; c.gemsAt = now;
-        updateBest(boards.gems, c.pid, c.name, total, false);
-        send(ws, { t: 'sub', ok: true, rankLap: 0, rankTotal: 0, rankGems: rankOf(boards.gems, c.pid, false) });
+        await store.updateBest('gems', 0, c.pid, c.name, total, false);
+        send(ws, { t: 'sub', ok: true, rankLap: 0, rankTotal: 0, rankGems: await store.rank('gems', 0, c.pid, false) });
         break;
       }
-      case 'lb': {        // siralama tablosu iste: 'lap0'..'lap2', 'total0'..'total2', 'gems'
+      case 'lb': {        // siralama tablosu iste: 'lap0'.., 'total0'.., 'gems'
         const key = String(m.key || 'lap0').slice(0, 8);
         const b = boardFor(key);
-        send(ws, { t: 'lb', key, rows: topRows(b.map, b.asc, 10).map((r) => ({ n: r.n, v: r.v, me: r.pid === c.pid })), myRank: rankOf(b.map, c.pid, b.asc) });
+        if (!store) { send(ws, { t: 'lb', key, rows: [], myRank: 0 }); break; }
+        const rows = await store.top(b.kind, b.track, b.asc, 10);
+        send(ws, { t: 'lb', key, rows: rows.map((r) => ({ n: r.n, v: r.v, me: r.pid === c.pid })), myRank: await store.rank(b.kind, b.track, c.pid, b.asc) });
         break;
       }
       case 'hit': {       // carpma olayi: odadaki herkese ilet (hedefte hasar/parca, digerlerinde gorsel)
@@ -255,12 +237,10 @@ wss.on('connection', (ws) => {
         break;
       }
       case 'forget': {    // KVKK/GDPR silme talebi: bu kimlige ait tum kayitlari sil
-        let n = 0;
-        for (const arr of [boards.lap, boards.total]) for (const mp of arr) if (mp[c.pid]) { delete mp[c.pid]; n++; }
-        if (boards.gems[c.pid]) { delete boards.gems[c.pid]; n++; }
-        dirty = true;
+        const oldPid = c.pid;
         c.gemsClaimed = 0;
         c.pid = 'anon' + c.id + '-' + Date.now();
+        const n = store ? await store.forget(oldPid) : 0;
         send(ws, { t: 'forgot', removed: n });
         break;
       }
@@ -268,6 +248,7 @@ wss.on('connection', (ws) => {
         send(ws, { t: 'pong', ts: m.ts });
         break;
     }
+   } catch (e) { console.warn('[msg] hata:', e && e.message); }
   });
 
   ws.on('close', () => { leaveRoom(c); clients.delete(ws); });

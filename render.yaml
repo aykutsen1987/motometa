@@ -8,3 +8,8 @@ services:
     buildCommand: npm install
     startCommand: node server.js
     healthCheckPath: /
+    envVars:
+      - key: DATABASE_URL        # Neon connection string (Render panelinden gir; repoya YAZMA)
+        sync: false
+      - key: RETENTION_DAYS      # kayit saklama suresi (gun)
+        value: "365"

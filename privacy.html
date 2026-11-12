@@ -1,64 +1,133 @@
-<!doctype html>
-<html lang="tr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>MotoMeta Game - Gizlilik Politikası / Privacy Policy</title>
-<style>body{font-family:system-ui,Segoe UI,Arial,sans-serif;max-width:820px;margin:24px auto;padding:0 16px;line-height:1.55;color:#1b1b2f}
-h1{font-size:26px}h2{font-size:19px;margin-top:26px}table{border-collapse:collapse;width:100%}td,th{border:1px solid #ccd;padding:6px 8px;text-align:left;font-size:14px}
-.lang{background:#f2f2fa;padding:4px 10px;border-radius:6px;display:inline-block;margin-right:8px}</style></head><body>
-<p><a class="lang" href="#tr">Türkçe</a><a class="lang" href="#en">English</a></p>
+<!DOCTYPE html>
+<html lang="tr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>MotoMeta Game – Gizlilik Politikası / Privacy Policy</title>
+<style>
+:root{--bg:#fff;--fg:#1c1c1e;--mut:#5f6368;--bd:#e3e3e8;--ac:#1a56db;--card:#f6f7f9}
+@media (prefers-color-scheme:dark){:root{--bg:#121316;--fg:#ececf0;--mut:#a0a4ab;--bd:#2c2e34;--ac:#7aa7ff;--card:#1b1d22}}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.65 system-ui,-apple-system,Segoe UI,Roboto,sans-serif}
+main{max-width:820px;margin:0 auto;padding:24px 18px 64px}h1{font-size:1.6rem;margin:.2em 0}
+h2{font-size:1.1rem;margin:1.7em 0 .4em;padding-top:.6em;border-top:1px solid var(--bd)}a{color:var(--ac)}.mut{color:var(--mut);font-size:.92rem}
+.lang{display:flex;gap:8px;margin-bottom:10px}.lang button{border:1px solid var(--bd);background:var(--card);color:var(--fg);padding:6px 14px;border-radius:8px;cursor:pointer;font:inherit}
+.lang button.on{border-color:var(--ac);color:var(--ac);font-weight:600}ul{padding-left:1.2em}li{margin:.3em 0}
+.w{overflow-x:auto}table{border-collapse:collapse;width:100%;font-size:.95rem}th,td{border:1px solid var(--bd);padding:6px 10px;text-align:left;vertical-align:top}th{background:var(--card)}
+.pg{display:none}body.tr #tr,body.en #en{display:block}
+</style></head>
+<body class="tr"><main>
+<div class="lang"><button id="btr" class="on" type="button">Türkçe</button><button id="ben" type="button">English</button></div>
 
-<h1 id="tr">MotoMeta Game – Gizlilik Politikası ve KVKK Aydınlatma Metni</h1>
-<p>Son güncelleme: {{DATE}} • Sürüm 1.0.0</p>
+<div class="pg" id="tr">
+<h1>MotoMeta Game – Gizlilik Politikası</h1>
+<p class="mut">@aykutsen1987 · Son güncelleme: 11 Kasım 2026 · Sürüm 1.0.0</p>
 
 <h2>1. Veri sorumlusu</h2>
-<p>{{NAME}} (geliştirici: @aykutsen1987). İletişim: <b>{{EMAIL}}</b></p>
+<p>Bu politika, <b>@aykutsen1987</b> tarafından yayımlanan <b>MotoMeta Game</b> Android uygulaması için geçerlidir. İletişim: <a href="mailto:{{EMAIL}}">{{EMAIL}}</a></p>
 
-<h2>2. Hangi verileri işliyoruz?</h2>
-<table>
+<h2>2. İşlenen veriler</h2>
+<div class="w"><table>
 <tr><th>Veri</th><th>Amaç</th><th>Saklama</th></tr>
-<tr><td>Takma ad (oyuncunun kendi girdiği)</td><td>Çok oyunculu mod ve sıralama tablosunda gösterim</td><td>Silme talebine kadar (sunucuda)</td></tr>
-<tr><td>Cihaza özel rastgele kimlik (GUID; telefon numarası, e-posta veya reklam kimliği değildir)</td><td>Aynı oyuncunun sıralama kaydını tanımak, hile önleme</td><td>Silme talebine kadar</td></tr>
-<tr><td>Oyun istatistikleri: pist rekorları, tur/yarış süreleri, elmas sayısı</td><td>Sıralama tabloları</td><td>Silme talebine kadar</td></tr>
-<tr><td>Çok oyunculu modda anlık konum / hız / motor bilgisi</td><td>Diğer oyunculara gösterim</td><td>Kalıcı saklanmaz, oda boyunca anlık aktarılır</td></tr>
-<tr><td>IP adresi, bağlantı zamanı (teknik)</td><td>Bağlantının kurulması, güvenlik; barındırma sağlayıcısı (Render) teknik kayıtlarında işlenebilir</td><td>Sağlayıcının kayıt süresi</td></tr>
-<tr><td>Reklam kimliği (GAID), IP, cihaz modeli / işletim sistemi, dil, yaklaşık konum (IP'den), reklam etkileşimleri</td><td>Reklam gösterimi ve ölçümü — Unity LevelPlay ve entegre reklam ağları tarafından işlenir</td><td>Reklam ortaklarının politikalarına tabi</td></tr>
-</table>
-<p><b>Toplamadığımız veriler:</b> kesin konum, rehber, fotoğraf/medya, mikrofon, ödeme bilgisi, kimlik numarası, e-posta/telefon.</p>
+<tr><td><b>Takma ad</b> (ayarlardan sizin girdiğiniz; girmezseniz rastgele atanır)</td><td>Çok oyunculu mod ve sıralama tablolarında gösterim</td><td>Silme talebine kadar; <b>365 gün hareketsiz kalırsa otomatik silinir</b></td></tr>
+<tr><td><b>Cihaza özel rastgele kimlik</b> (GUID; telefon numaranız, e-postanız veya reklam kimliğiniz değildir)</td><td>Sıralama kaydınızı tanımak, hile önleme</td><td>Silme talebine kadar; 365 gün hareketsiz kalırsa otomatik silinir</td></tr>
+<tr><td><b>Oyun istatistikleri:</b> pist rekorları, tur/yarış süreleri, elmas sayısı</td><td>Sıralama tabloları</td><td>Silme talebine kadar; 365 gün hareketsiz kalırsa otomatik silinir</td></tr>
+<tr><td><b>Çok oyunculu anlık veriler:</b> oda bilgisi, konum, hız, motor seçimi</td><td>Diğer oyunculara gösterim</td><td>Kalıcı saklanmaz; oda süresince anlık iletilir</td></tr>
+<tr><td><b>Bağlantı verileri:</b> IP adresi, bağlantı zamanı</td><td>Bağlantının kurulması ve güvenlik; barındırma sağlayıcısının teknik kayıtlarında işlenebilir</td><td>Sağlayıcının kayıt süresi</td></tr>
+<tr><td><b>Reklam ve cihaz verileri:</b> reklam kimliği (GAID), IP adresi, cihaz modeli/işletim sistemi, dil, yaklaşık konum (IP’den), uygulama sürümü, reklam gösterim/tıklama bilgileri</td><td>Reklam gösterimi ve ölçümü; reklam ortakları tarafından işlenir</td><td>Reklam ortaklarının politikalarına tabidir</td></tr>
+<tr><td><b>Cihazınızda kalan veriler:</b> ayarlar, ses seviyeleri, ilerleme, para/XP, gizlilik tercihiniz</td><td>Uygulamanın çalışması</td><td>Yalnızca cihazınızda; uygulamayı kaldırınca silinir</td></tr>
+</table></div>
+<p><b>Toplamadığımız veriler:</b> kesin konum, rehber, fotoğraf/medya, mikrofon, kamera, ödeme bilgisi, kimlik numarası, e-posta/telefon. Uygulamayı kullanmak için kullanıcı hesabı oluşturmanız istenmez.</p>
 
-<h2>3. Hukuki sebepler (KVKK m.5)</h2>
-<p>Oyunun sunulması (sözleşmenin kurulması/ifası, m.5/2-c), hile önleme ve güvenlik (meşru menfaat, m.5/2-f); kişiselleştirilmiş reklam için <b>açık rıza</b> (m.5/1) — ilk açılışta sorulur, Ayarlar &gt; Genel bölümünden istediğin zaman geri alınabilir. Rıza vermezsen kişiselleştirilmemiş (genel) reklamlar gösterilir.</p>
+<h2>3. İzinler</h2>
+<p>Uygulama; internet erişimi, ağ durumu ve (reklam hizmetleri için) reklam kimliği izinlerini kullanır. Konum, kamera, mikrofon, rehber veya depolama izni istemez.</p>
 
-<h2>4. Yurt dışına aktarım</h2>
-<p>Oyun sunucusu ve reklam hizmetleri yurt dışındaki sağlayıcılar (Render, Unity LevelPlay ve reklam ağları) üzerinden çalışabilir; bu nedenle veriler yurt dışına aktarılabilir. Aktarım KVKK m.9 ve ilgili Kurul düzenlemelerine uygun güvencelerle yapılır.</p>
+<h2>4. Reklamlar ve tercihiniz</h2>
+<p>Uygulama reklam gösterir (banner, geçiş ve ödüllü reklamlar). İlk açılışta <b>kişiselleştirilmiş reklamlar</b> için tercihiniz sorulur; reklam hizmeti tercihinizi verdikten sonra başlatılır. Kabul ederseniz reklamlar ilgi alanlarınıza göre gösterilebilir; reddederseniz <b>kişiselleştirilmemiş (genel)</b> reklamlar gösterilir; reklam sayısı değişmez. Tercihinizi istediğiniz zaman <b>Ayarlar → Genel</b> bölümünden değiştirebilirsiniz. Ayrıca cihazınızda <b>Ayarlar → Google → Reklamlar</b> bölümünden kişiselleştirmeyi sınırlayabilir veya reklam kimliğinizi sıfırlayabilirsiniz.</p>
+<ul><li>Unity LevelPlay (ve LevelPlay üzerinden bağlanan reklam ağları): <a href="https://unity.com/legal/privacy-policy" rel="noopener">unity.com/legal/privacy-policy</a></li></ul>
 
-<h2>5. Haklarınız (KVKK m.11)</h2>
-<p>Verilerinize erişme, düzeltme, silme, işlemeye itiraz etme ve zarara uğramanız halinde tazminat talep etme haklarına sahipsiniz. <b>Uygulama içi:</b> Ayarlar &gt; Genel &gt; “Verilerimi sil”. Ayrıca <b>{{EMAIL}}</b> adresine yazabilirsiniz. Şikayet hakkınız: Kişisel Verileri Koruma Kurumu.</p>
+<h2>5. Üçüncü taraf hizmetler</h2>
+<div class="w"><table>
+<tr><th>Hizmet</th><th>Amaç</th><th>Gizlilik politikası</th></tr>
+<tr><td>Unity LevelPlay ve bağlı reklam ağları</td><td>Reklam gösterimi ve ölçümü</td><td><a href="https://unity.com/legal/privacy-policy" rel="noopener">unity.com/legal/privacy-policy</a></td></tr>
+<tr><td>Google Play Services</td><td>Reklam kimliği ve Play altyapısı</td><td><a href="https://policies.google.com/privacy" rel="noopener">policies.google.com/privacy</a></td></tr>
+<tr><td>Render (sunucu barındırma)</td><td>Çok oyunculu mod</td><td><a href="https://render.com/privacy" rel="noopener">render.com/privacy</a></td></tr>
+<tr><td>Neon (PostgreSQL veritabanı)</td><td>Sıralama tablolarının saklanması</td><td><a href="https://neon.com/privacy-policy" rel="noopener">neon.com/privacy-policy</a></td></tr>
+</table></div>
 
-<h2>6. Çocuklar</h2>
-<p>Uygulama 13 yaş altı çocuklara yönelik değildir; bilerek 13 yaş altından veri toplamayız.</p>
+<h2>6. Yurt dışına aktarım</h2>
+<p>Reklam ortakları ve barındırma sağlayıcısı verileri Türkiye dışındaki ülkelerde (ör. ABD, AB) işleyebilir. Bu aktarım, ilgili özelliklerin (reklam, çok oyunculu mod, sıralama) çalışması için gereklidir; reklam kişiselleştirmesini yukarıda belirtildiği gibi sınırlayabilirsiniz.</p>
 
-<h2>7. Güvenlik</h2>
-<p>Sunucu bağlantıları şifreli (https / wss) yapılır. Yine de hiçbir yöntem mutlak güvenlik sağlamaz.</p>
+<h2>7. Saklama ve silme</h2>
+<p>Cihazınızdaki veriler uygulamayı kaldırdığınızda silinir. Sunucudaki takma ad ve sıralama kayıtlarınız (veritabanında saklanır; 365 gün hareketsiz kalan kayıtlar otomatik silinir) — bunları <b>Ayarlar → Genel → “Verilerimi sil”</b> ile uygulama içinden silebilirsiniz; bu işlem cihazdaki kimliğinizi ve istatistiklerinizi de sıfırlar. Sunucuya bağlanamıyorsanız veya reklam ortaklarındaki verileriniz için <a href="mailto:{{EMAIL}}">{{EMAIL}}</a> adresine yazabilirsiniz.</p>
 
-<h2>8. Değişiklikler</h2>
-<p>Politika güncellenirse bu sayfada yayınlanır.</p>
+<h2>8. Çocuklar</h2>
+<p>Uygulama 13 yaşın altındaki çocuklara yönelik değildir ve bu yaş grubundan bilerek kişisel veri toplamaz. Böyle bir durumu fark ederseniz bize yazın, ilgili veriyi sileriz.</p>
 
-<hr>
-<h1 id="en">MotoMeta Game – Privacy Policy</h1>
-<p>Last updated: {{DATE}} • Version 1.0.0</p>
-<h2>Controller</h2><p>{{NAME}} (developer: @aykutsen1987). Contact: <b>{{EMAIL}}</b></p>
-<h2>Data we process</h2>
-<ul>
-<li><b>Nickname</b> you enter and a <b>random device ID</b> (GUID; not your phone number, email or advertising ID) – to show you in multiplayer and leaderboards and prevent cheating. Kept until you delete it.</li>
-<li><b>Gameplay stats</b> (track records, lap/race times, gem count) – for leaderboards.</li>
-<li><b>Live position/speed</b> in multiplayer rooms – relayed in real time, not stored.</li>
-<li><b>IP address / connection time</b> – technical, may be processed in the hosting provider's (Render) logs.</li>
-<li><b>Advertising ID, IP, device model/OS, language, approximate location, ad interactions</b> – processed by Unity LevelPlay and its ad networks to serve and measure ads. Personalization depends on your consent.</li>
-</ul>
-<p>We do <b>not</b> collect precise location, contacts, photos/media, microphone, payment info or government IDs.</p>
-<h2>Consent and choices</h2>
-<p>On first launch we ask whether you accept personalized ads. You can change it in Settings &gt; General. If you decline, generic (non-personalized) ads are shown.</p>
-<h2>Your rights / deletion</h2>
-<p>Use Settings &gt; General &gt; “Delete my data” or email <b>{{EMAIL}}</b>. Residents of Türkiye (KVKK), the EEA/UK (GDPR) and California (CCPA) can request access, correction, deletion and objection.</p>
-<h2>International transfers</h2><p>Servers and ad partners may be located outside your country; transfers use appropriate safeguards.</p>
-<h2>Children</h2><p>The app is not directed to children under 13 and we do not knowingly collect their data.</p>
-</body></html>
+<h2>9. Güvenlik</h2>
+<p>Sunucu bağlantıları şifreli (https/wss) yapılır ve makul teknik ve idari önlemler alınır; ancak internet üzerinden hiçbir aktarımın tamamen risksiz olmadığı unutulmamalıdır. Bir veri ihlali olursa mevzuattaki süreler içinde Kişisel Verileri Koruma Kurulu’na ve gerekirse etkilenen kişilere bildirim yapılır. Takma adınız diğer oyunculara görünür; gerçek adınızı kullanmamanızı öneririz.</p>
+
+<h2>10. Haklarınız (KVKK m.11)</h2>
+<p>Verilerinizin işlenip işlenmediğini öğrenme, bilgi talep etme, düzeltme, silme/yok etme, işlemeye itiraz etme, rızanızı geri çekme ve zarara uğramanız halinde tazminat talep etme haklarına sahipsiniz. AB/Birleşik Krallık (GDPR) ve Kaliforniya (CCPA) kullanıcıları da erişim, düzeltme, silme ve itiraz haklarına sahiptir. Taleplerinizi <a href="mailto:{{EMAIL}}">{{EMAIL}}</a> adresine iletebilirsiniz. Şikayet hakkınız saklıdır: Kişisel Verileri Koruma Kurumu.</p>
+
+<h2>11. Değişiklikler</h2>
+<p>Bu politika güncellenebilir; güncel sürüm bu sayfada yayımlanır. Son güncelleme: <b>11 Kasım 2026</b>.</p>
+</div>
+
+<div class="pg" id="en">
+<h1>MotoMeta Game – Privacy Policy</h1>
+<p class="mut">@aykutsen1987 · Last updated: 11 November 2026 · Version 1.0.0</p>
+
+<h2>1. Controller</h2>
+<p>This policy applies to the <b>MotoMeta Game</b> Android app published by <b>@aykutsen1987</b>. Contact: <a href="mailto:{{EMAIL}}">{{EMAIL}}</a></p>
+
+<h2>2. Data we process</h2>
+<div class="w"><table>
+<tr><th>Data</th><th>Purpose</th><th>Retention</th></tr>
+<tr><td><b>Nickname</b> (entered by you in Settings; a random one is assigned otherwise)</td><td>Shown in multiplayer and leaderboards</td><td>Until you request deletion; <b>automatically deleted after 365 days of inactivity</b></td></tr>
+<tr><td><b>Random device ID</b> (GUID; not your phone number, email or advertising ID)</td><td>Recognize your leaderboard records, prevent cheating</td><td>Until deletion; automatically deleted after 365 days of inactivity</td></tr>
+<tr><td><b>Gameplay stats:</b> track records, lap/race times, gem count</td><td>Leaderboards</td><td>Until deletion; automatically deleted after 365 days of inactivity</td></tr>
+<tr><td><b>Live multiplayer data:</b> room info, position, speed, bike choice</td><td>Shown to other players</td><td>Not stored; relayed in real time</td></tr>
+<tr><td><b>Connection data:</b> IP address, connection time</td><td>Establishing the connection and security; may appear in the hosting provider’s technical logs</td><td>Provider’s log period</td></tr>
+<tr><td><b>Ad and device data:</b> advertising ID (GAID), IP address, device model/OS, language, approximate location (from IP), app version, ad impression/click data</td><td>Serving and measuring ads; processed by ad partners</td><td>Per ad partners’ policies</td></tr>
+<tr><td><b>Data kept on your device:</b> settings, volumes, progress, coins/XP, your privacy choice</td><td>Running the app</td><td>Only on your device; deleted on uninstall</td></tr>
+</table></div>
+<p><b>We do not collect:</b> precise location, contacts, photos/media, microphone, camera, payment info, government IDs, email/phone. You are not asked to create a user account.</p>
+
+<h2>3. Permissions</h2>
+<p>The app uses internet access, network state and (for ad services) the advertising ID permission. It does not request location, camera, microphone, contacts or storage permissions.</p>
+
+<h2>4. Advertising and your choice</h2>
+<p>The app shows ads (banner, interstitial and rewarded). On first launch you are asked whether you accept <b>personalized ads</b>; the ad service starts only after you choose. If you accept, ads may be tailored to your interests; if you decline, <b>non-personalized (generic)</b> ads are shown, and the number of ads does not change. You can change your choice anytime in <b>Settings → General</b>. You can also limit personalization or reset your advertising ID in your device’s <b>Settings → Google → Ads</b>.</p>
+<ul><li>Unity LevelPlay (and the ad networks connected through LevelPlay): <a href="https://unity.com/legal/privacy-policy" rel="noopener">unity.com/legal/privacy-policy</a></li></ul>
+
+<h2>5. Third-party services</h2>
+<div class="w"><table>
+<tr><th>Service</th><th>Purpose</th><th>Privacy policy</th></tr>
+<tr><td>Unity LevelPlay and connected ad networks</td><td>Serving and measuring ads</td><td><a href="https://unity.com/legal/privacy-policy" rel="noopener">unity.com/legal/privacy-policy</a></td></tr>
+<tr><td>Google Play Services</td><td>Advertising ID and Play infrastructure</td><td><a href="https://policies.google.com/privacy" rel="noopener">policies.google.com/privacy</a></td></tr>
+<tr><td>Render (server hosting)</td><td>Multiplayer</td><td><a href="https://render.com/privacy" rel="noopener">render.com/privacy</a></td></tr>
+<tr><td>Neon (PostgreSQL database)</td><td>Storing leaderboards</td><td><a href="https://neon.com/privacy-policy" rel="noopener">neon.com/privacy-policy</a></td></tr>
+</table></div>
+
+<h2>6. International transfers</h2>
+<p>Ad partners and the hosting provider may process data in countries outside Türkiye (e.g. USA, EU). This transfer is needed for the related features (ads, multiplayer, leaderboards); you can limit ad personalization as described above.</p>
+
+<h2>7. Retention and deletion</h2>
+<p>Data on your device is deleted when you uninstall the app. Your nickname and leaderboard records are stored in a database on our server and are automatically deleted after 365 days of inactivity. You can also delete them in the app via <b>Settings → General → “Delete my data”</b>; this also resets your device ID and stats. If you cannot connect to the server, or for data held by ad partners, email <a href="mailto:{{EMAIL}}">{{EMAIL}}</a>.</p>
+
+<h2>8. Children</h2>
+<p>The app is not directed to children under 13 and does not knowingly collect personal data from them. If you notice such a case, email us and we will delete the data.</p>
+
+<h2>9. Security</h2>
+<p>Server connections are encrypted (https/wss) and reasonable technical and organizational measures are applied; however, no internet transmission is completely risk-free. In case of a data breach, the competent authority and, where required, affected users are notified within legal deadlines. Your nickname is visible to other players; we recommend not using your real name.</p>
+
+<h2>10. Your rights</h2>
+<p>You may request access, correction and deletion, object to processing, and withdraw consent where applicable (Turkish KVKK, EEA/UK GDPR, California CCPA). Send requests to <a href="mailto:{{EMAIL}}">{{EMAIL}}</a>. You may also complain to your data protection authority.</p>
+
+<h2>11. Changes</h2>
+<p>This policy may be updated; the current version is published on this page. Last updated: <b>11 November 2026</b>.</p>
+</div>
+</main>
+<script>
+(function(){var b=document.body,t=document.getElementById('btr'),e=document.getElementById('ben');
+function s(l){b.className=l;document.documentElement.lang=l;t.className=l==='tr'?'on':'';e.className=l==='en'?'on':'';}
+t.onclick=function(){s('tr')};e.onclick=function(){s('en')};
+var nl=(navigator.language||'tr').toLowerCase();s(nl.indexOf('tr')===0?'tr':(nl.indexOf('en')===0?'en':'tr'));})();
+</script></body></html>
